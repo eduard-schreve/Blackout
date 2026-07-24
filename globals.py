@@ -7,7 +7,7 @@ FLOOR = 0
 STATIC_OBSTICLES = 1
 
 ##PLAYER
-LIGHT_ANGLE = 45
+LIGHT_ANGLE = 35
 
 ##TYPES
 type Coord = tuple[int,int]

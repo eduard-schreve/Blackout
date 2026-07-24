@@ -28,11 +28,10 @@ class LevelControl():
                         return
         plr_tile_pos = (plr_pos[0]//TILE_SIZE,plr_pos[1]//TILE_SIZE)
         delta_mouse_pos = (point_pos[0]-plr_pos[0],point_pos[1]-plr_pos[1])
-        delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
-        point_angle = math.degrees(math.atan2(delta_mouse_pos[0],delta_mouse_pos[1]))
-        print(f"Point: {point_angle}")
+        # delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
+        point_angle = math.degrees(math.atan2(delta_mouse_pos[1],delta_mouse_pos[0]))+180
+        print(point_angle)
         vis_mask = self._generate_visible_mask(point_angle,5,plr_tile_pos)
-        print(len(vis_mask))
 
         for layer in self.tmxdata.layers:
             if getattr(layer,"class") == "obj":
@@ -45,15 +44,24 @@ class LevelControl():
                 
              
 
-    def _generate_visible_mask(self,angle:float,vision_dist:int,plr_tile:Coord) -> list[Coord]:
-        vis_tiles = []
+    def _generate_visible_mask(self,angle:float,vision_dist:int,plr_tile:Coord) -> set[Coord]:
+        vis_tiles = set()
+        vis_tiles.add(plr_tile)
         for y in range(vision_dist*2+1):
             for x in range(vision_dist*2+1):
-                y = y - vision_dist//2
-                x = x -vision_dist//2
-                tile_angle = math.degrees(math.atan2(y,x))
-                if tile_angle <= angle+LIGHT_ANGLE and tile_angle >= angle-LIGHT_ANGLE:
-                    vis_tiles.append((x+plr_tile[0],y+plr_tile[1]))
+                m_y = y - vision_dist
+                m_x = x -vision_dist
+                if math.sqrt(m_y**2+m_x**2) <= vision_dist:
+                    tile_angle = math.degrees(math.atan2(m_y,m_x))+180
+
+                    angle_min = angle-LIGHT_ANGLE if angle-LIGHT_ANGLE >= 0 else (360+angle-LIGHT_ANGLE)
+                    angle_max = (angle+LIGHT_ANGLE)%360
+
+                    flag_normal_boundries = tile_angle <= angle_max and tile_angle >= angle_min  ##Statement used in normal boundries where no wrapping around around 0-360 is required
+                    flag_angle_min_wrap = angle_min > 360-(2*LIGHT_ANGLE) and tile_angle <= 360 and tile_angle >= angle_min  ##Statement used if angle_min wraps around 0-360 to the 360 side
+                    flag_angle_max_wrap = angle_max < 2*LIGHT_ANGLE and tile_angle <= angle_max and tile_angle >= 0  ##Statementused if angle_max wraps around 0-360 to the 0 side
+                    if flag_normal_boundries or flag_angle_min_wrap or flag_angle_max_wrap:  #The statement from hell allowing the spinny light to fully wrap arround the 0-360 point correctly
+                        vis_tiles.add((m_x+plr_tile[0],m_y+plr_tile[1]))
         return vis_tiles
 
     def get_obj(self,name:str):

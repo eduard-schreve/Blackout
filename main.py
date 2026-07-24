@@ -1,6 +1,7 @@
 import pygame
 import maplib
 import player
+from globals import *
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
@@ -12,6 +13,9 @@ map = maplib.LevelControl(maps,screen)
 map.load_map(0)
 
 player = player.player()
+
+##set plr pos to spawn point
+player.cords = [11*32,11*32]
 
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
@@ -41,7 +45,7 @@ while running:
 
     ##DRAW
     screen.fill((0, 0, 0))  # Fill the screen with black color
-    map.Render_map(player_cords,pygame.mouse.get_pos())
+    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos())
 
     player.render(screen)  # Render the player on the screen
 

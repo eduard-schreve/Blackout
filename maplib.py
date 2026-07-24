@@ -18,7 +18,7 @@ class LevelControl():
         self.offset_y = TILE_SIZE
 
 
-    def load_map(self, m_index:int) -> None:
+    def Load_map(self, m_index:int) -> None:
         self.tmxdata = pytmx.load_pygame(self.map_pool[m_index])
 
     def Render_map(self, plr_pos:Coord, point_pos:Coord) -> None:
@@ -64,7 +64,7 @@ class LevelControl():
                         vis_tiles.add((m_x+plr_tile[0],m_y+plr_tile[1]))
         return vis_tiles
 
-    def get_obj(self,name:str):
+    def Get_obj(self,name:str):
         if self.tmxdata == None:
             MapNotLoadedError('Map has not been loaded')
             return

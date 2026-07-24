@@ -10,12 +10,12 @@ running = True
 
 maps = ["Maps/Test_map.tmx"]
 map = maplib.LevelControl(maps,screen)
-map.load_map(0)
+map.Load_map(0)
 
 player = player.player()
 
 ##set plr pos to spawn point
-player.cords = [11*32,11*32]
+player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 

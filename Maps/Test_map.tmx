@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="TileMaps/Basic_Tiles.tsx"/>
  <objectgroup id="3" name="Wires" class="obj"/>
  <objectgroup id="4" name="Lvl_Data" class="obj">
-  <object id="1" name="spwn" x="298" y="336.111">
+  <object id="1" name="spwn" x="359.667" y="289.333">
    <point/>
   </object>
  </objectgroup>

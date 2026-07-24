@@ -1,4 +1,5 @@
 import pygame
+import maplib
 import player
 
 pygame.init()
@@ -6,16 +7,15 @@ screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 running = True
 
+maps = ["Maps/Test_map.tmx"]
+map = maplib.LevelControl(maps,screen)
+map.load_map(0)
+
 player = player.player()
 
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
 while running:
-
-    screen.fill((0, 0, 0))  # Fill the screen with black color
-
-    player.render(screen)  # Render the player on the screen
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -38,6 +38,12 @@ while running:
         player_cords = player.move_right()  # Move the player right continuously while 'D' is held down
     else:
         player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
+
+    ##DRAW
+    screen.fill((0, 0, 0))  # Fill the screen with black color
+    map.Render_map(player_cords,pygame.mouse.get_pos())
+
+    player.render(screen)  # Render the player on the screen
 
     pygame.display.flip()
 

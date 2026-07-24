@@ -1,6 +1,9 @@
 import pygame
+import pathlib
 
 pygame.init()
+
+BASEDIR = pathlib.Path(__file__).parent
 
 class player:
     def __init__(self):
@@ -8,7 +11,7 @@ class player:
         self.speed = 3  # Speed of the player
         self.position = 0  # Current position index for animation
 
-        self.ogplayer_image = pygame.image.load("player.png").convert_alpha()  # Load the player image
+        self.ogplayer_image = pygame.image.load(str(BASEDIR.joinpath("Resources","player.png"))).convert_alpha()  # Load the player image
         self.player_image = pygame.Surface((32, 32), pygame.SRCALPHA)  # Load the player image
         self.player_surface = pygame.Surface((32, 32), pygame.SRCALPHA)  # Create a surface for the player image
         self.player_image.blit(self.ogplayer_image, (0, 0), (0, 0, 32, 32))  # Blit the player image onto the surface

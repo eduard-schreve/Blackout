@@ -1,13 +1,16 @@
 import pygame
+import pathlib
 
 pygame.init()
+
+BASEDIR = pathlib.Path(__file__).parent
 
 class Battery:
     def __init__(self):
         self.state = 6000  # Initialize the battery state to 100%
 
     def render(self, screen,):
-        battery_image = pygame.image.load("battery.png").convert_alpha()  # Load the transparent battery image
+        battery_image = pygame.image.load(BASEDIR.joinpath("Resources","battery.png")).convert_alpha()  # Load the transparent battery image
         coords = (screen.get_width() - 74, 10)
 
         if self.state > -1:

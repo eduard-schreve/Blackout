@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="2">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="3">
  <tileset firstgid="1" source="TileMaps/Basic_Tiles.tsx"/>
  <objectgroup id="5" name="Wires" class="obj"/>
  <objectgroup id="4" name="Lvl_Data" class="obj">
-  <object id="1" name="spwn" x="129.865" y="43.2103">
+  <object id="1" name="spwn" x="98.865" y="161.21">
    <point/>
   </object>
+  <object id="2" name="exit" x="365.667" y="168.667" width="74.6667" height="20.6667"/>
  </objectgroup>
  <layer id="1" name="Floor" class="ground" width="40" height="40">
   <data encoding="csv">

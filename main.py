@@ -17,8 +17,9 @@ flag_e_pressed = False
 
 
 maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
+map_index = 0
 map = maplib.LevelControl(maps,screen)
-map.Load_map(0)
+map.Load_map(map_index)
 # map.Exec_func_str("setb 19 collide False")
 player = player.player()
 battery = battery.Battery()
@@ -30,11 +31,6 @@ player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
 while running:
-
-    screen.fill((255, 255, 255))  # Fill the screen with white color
-
-    player.render(screen)  # Render the player on the screen
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -59,8 +55,11 @@ while running:
         else:
             player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
 
-        battery.render(screen)  # Render the battery on the screen
         player_cords = player.Update(map)
+        if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):
+            map_index +=1
+            map.Load_map(map_index)
+
 
         #---PLAYER INTERACT---#
         if pygame.key.get_pressed()[pygame.K_e] and not flag_e_pressed:  # Check if 'E' key is held down
@@ -71,10 +70,12 @@ while running:
 
         
 
-    ##DRAW
-    screen.fill((0, 0, 0))  # Fill the screen with black color
-    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),5)
-    player.render(screen)
+        ##DRAW
+        screen.fill((0, 0, 0))  # Fill the screen with black color
+        vis_distance = int(10*(battery.state/6000))
+        map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),vis_distance)
+        battery.render(screen)  # Render the battery on the screen
+        player.render(screen)
 
     if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed

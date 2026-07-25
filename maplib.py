@@ -82,6 +82,15 @@ class LevelControl():
         return self.tmxdata.get_object_by_name(name)
 
 
+    def Plr_exit(self,plr:Rect):
+        exit = self.Get_obj('exit')
+        if exit != None:
+            exit_rect = (exit.x,exit.y,exit.width,exit.height)
+            return pygame.rect.Rect(plr).colliderect(exit_rect)
+
+
+
+
     def Exec_func_str(self,func_str:str) -> bool:
         if self.tmxdata == None:
                     MapNotLoadedError('Map has not been loaded')

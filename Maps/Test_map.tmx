@@ -5,7 +5,7 @@
   <properties>
    <property name="interact" type="bool" value="true"/>
   </properties>
-  <object id="18" name="Switch 1" x="349.625" y="260" width="68.375" height="62">
+  <object id="18" name="Switch 1" x="382" y="286" width="36" height="36">
    <properties>
     <property name="function" value="setb 19 collide False"/>
    </properties>

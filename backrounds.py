@@ -1,13 +1,16 @@
 import pygame
 import random
+import pathlib
 
 pygame.init()
 
+BASEDIR = pathlib.Path(__file__).parent
+
 class backrounds:
     def __init__(self):
-        self.start_page_image = pygame.image.load("start_page.png").convert_alpha()  # Load the start page image
-        self.buttons = pygame.image.load("buttons.png").convert_alpha()  # Load the buttons image
-        self.light = pygame.image.load("light.png").convert_alpha()  # Load the light image
+        self.start_page_image = pygame.image.load(BASEDIR.joinpath("start_page.png")).convert_alpha()  # Load the start page image
+        self.buttons = pygame.image.load(BASEDIR.joinpath("buttons.png")).convert_alpha()  # Load the buttons image
+        self.light = pygame.image.load(BASEDIR.joinpath("light.png")).convert_alpha()  # Load the light image
         self.pressed = False  # Variable to track if the left mouse button is pressed
 
     def render_start_page(self, screen):

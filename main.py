@@ -2,15 +2,16 @@ import pygame
 import player
 import battery
 import backrounds
+import maplib
+from globals import *
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)  # Create a resizable window with dimensions 1280x720
 clock = pygame.time.Clock()
 running = True
 
-player = player.player()  # Create an instance of the Player class
-battery = battery.Battery()
-backrounds = backrounds.backrounds()
+# player = player.player()  # Create an instance of the Player class
+
 ##KEY FLAGS
 flag_e_pressed = False
 
@@ -20,6 +21,8 @@ map = maplib.LevelControl(maps,screen)
 map.Load_map(0)
 # map.Exec_func_str("setb 19 collide False")
 player = player.player()
+battery = battery.Battery()
+backrounds = backrounds.backrounds()
 
 ##set plr pos to spawn point
 player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
@@ -41,7 +44,7 @@ while running:
                 running = False
 
     #---MOVEMENT---#
-    if backrounds.render_start_page(screen) == "load":  # Check if the left mouse button is pressed on the start page
+    if backrounds.render_start_page(screen) == "start":  # Check if the left mouse button is pressed on the start page
         if pygame.key.get_pressed()[pygame.K_w]:  # Check if 'W' key is held down
             player_cords = player.move_up()  # Move the player up continuously while 'W' is held down
 
@@ -57,18 +60,21 @@ while running:
             player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
 
         battery.render(screen)  # Render the battery on the screen
-    player_cords = player.Update(map)
+        player_cords = player.Update(map)
 
-    #---PLAYER INTERACT---#
-    if pygame.key.get_pressed()[pygame.K_e] and not flag_e_pressed:  # Check if 'E' key is held down
-        flag_e_pressed = True
-        map.Interact((player_cords[0],player_cords[1],player.size[0],player.size[1]))
-    elif not pygame.key.get_pressed()[pygame.K_e] and flag_e_pressed:
-        flag_e_pressed = False
+        #---PLAYER INTERACT---#
+        if pygame.key.get_pressed()[pygame.K_e] and not flag_e_pressed:  # Check if 'E' key is held down
+            flag_e_pressed = True
+            map.Interact((player_cords[0],player_cords[1],player.size[0],player.size[1]))
+        elif not pygame.key.get_pressed()[pygame.K_e] and flag_e_pressed:
+            flag_e_pressed = False
+
+        
 
     ##DRAW
     screen.fill((0, 0, 0))  # Fill the screen with black color
-    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),player.torch_strength)
+    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),5)
+    player.render(screen)
 
     if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed

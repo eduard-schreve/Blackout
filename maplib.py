@@ -32,10 +32,8 @@ class LevelControl():
                         return
         plr_tile_pos = (plr_pos[0]//TILE_SIZE,plr_pos[1]//TILE_SIZE)
         delta_mouse_pos = (point_pos[0]-plr_pos[0],point_pos[1]-plr_pos[1])
-        # delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
         point_angle = math.degrees(math.atan2(delta_mouse_pos[1],delta_mouse_pos[0]))+180
         vis_mask = self._generate_visible_mask(point_angle,vis_dist,plr_tile_pos)
-        # print(self.tmxdata.layers)
         sorted_layers = sorted(self.tmxdata.layers,key=Sort_by_id)
         for layer in sorted_layers:
             if getattr(layer,"class") == "obj":
@@ -47,7 +45,7 @@ class LevelControl():
                         wire_lines[node.name].append((node.x,node.y))
                     for key in wire_lines.keys():
                         pygame.draw.lines(self.screen,(255,0,0),False,wire_lines[key])
-            else:
+            elif getattr(layer,"class") != "hidden":
                 tiles = layer.tiles()
                 for x,y,img in tiles:
                     if (x,y) in vis_mask:
@@ -95,13 +93,22 @@ class LevelControl():
         if self.tmxdata == None:
                     MapNotLoadedError('Map has not been loaded')
                     return False
-        parced = func_str.split(' ')
-        if parced[0] == "setb": #Set Boolean Value
-            obj = self.tmxdata.get_object_by_id(int(parced[1]))
-            if parced[3] == "True":
-                obj.properties[parced[2]] = True
-            else:
-                obj.properties[parced[2]] = False
+        commands = func_str.split(';')
+        print(commands)
+        for command in commands:
+            print(command)
+            parced = command.split(' ')
+            if parced[0] == "setb": #Set Boolean Value
+                obj = self.tmxdata.get_object_by_id(int(parced[1]))
+                if parced[3] == "True":
+                    obj.properties[parced[2]] = True
+                else:
+                    obj.properties[parced[2]] = False
+            elif parced[0] == "settile":
+                layer = self.tmxdata.get_layer_by_name(parced[1])
+                gid = self.tmxdata.get_tile_gid(int(parced[4]),int(parced[5]),0)
+                layer.data[int(parced[3])][int(parced[2])] = gid
+                print("creek")
         return True
 
 

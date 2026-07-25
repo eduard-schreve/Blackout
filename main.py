@@ -17,7 +17,7 @@ running = True
 flag_e_pressed = False
 
 
-maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
+maps = ["Maps/tut1.tmx","Maps/1.tmx"]
 map_index = 0
 map = maplib.LevelControl(maps,screen)
 map.Load_map(map_index)

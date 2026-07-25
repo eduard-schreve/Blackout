@@ -6,6 +6,15 @@ import math
 
 BASEDIR = pathlib.Path(__file__).parent
 
+def Check_point_in_rect(point:Coord,rect:Rect) -> bool:
+    TL = rect[0]
+    BR = (rect[0][0]+rect[1][0],rect[0][1]+rect[1][1])
+    if point[0] > TL[0] and point[0] < BR[0]:
+        if point[1] > TL[1] and point[1] < BR[1]:
+            return True
+    return False
+
+
 class MapNotLoadedError(Exception):
     """Error raised if the map operations are attempted before being loaded"""
 
@@ -30,7 +39,6 @@ class LevelControl():
         delta_mouse_pos = (point_pos[0]-plr_pos[0],point_pos[1]-plr_pos[1])
         # delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
         point_angle = math.degrees(math.atan2(delta_mouse_pos[1],delta_mouse_pos[0]))+180
-        print(point_angle)
         vis_mask = self._generate_visible_mask(point_angle,5,plr_tile_pos)
 
         for layer in self.tmxdata.layers:
@@ -51,7 +59,7 @@ class LevelControl():
             for x in range(vision_dist*2+1):
                 m_y = y - vision_dist
                 m_x = x -vision_dist
-                if math.sqrt(m_y**2+m_x**2) <= vision_dist:
+                if int(math.sqrt(m_y**2+m_x**2)+0.5) <= vision_dist:
                     tile_angle = math.degrees(math.atan2(m_y,m_x))+180
 
                     angle_min = angle-LIGHT_ANGLE if angle-LIGHT_ANGLE >= 0 else (360+angle-LIGHT_ANGLE)
@@ -69,3 +77,30 @@ class LevelControl():
             MapNotLoadedError('Map has not been loaded')
             return
         return self.tmxdata.get_object_by_name(name)
+
+
+    def Collisions(self,obj:Rect) -> list[Rect]:
+        colliders = []
+        if self.tmxdata == None:
+            MapNotLoadedError('Map has not been loaded')
+            return False
+        obj_tile_pos = (obj[0]//TILE_SIZE,obj[1]//TILE_SIZE)
+        self.tmxdata.tilesets
+        for layer_index in range(len(self.tmxdata.layernames)):
+            if getattr(self.tmxdata.layers[layer_index], 'class') == 'obj':
+                continue
+            for y in range(-1,2):
+                for x in range(-1,2):
+                    if x==y==0:
+                        continue
+                    map_x = obj_tile_pos[0]+x
+                    map_y = obj_tile_pos[1]+y
+                    properties = self.tmxdata.get_tile_properties(map_x,map_y,layer_index)
+                    if properties != None:
+                        rect = (map_x*TILE_SIZE+properties['colliders'][0].x,
+                                map_y*TILE_SIZE+properties['colliders'][0].y,
+                                properties['colliders'][0].width,
+                                properties['colliders'][0].height)
+                        colliders.append(rect)
+        return colliders
+                    

@@ -30,18 +30,19 @@ while running:
 
     #---MOVEMENT---#
     if pygame.key.get_pressed()[pygame.K_w]:  # Check if 'W' key is held down
-        player_cords = player.move_up()  # Move the player up continuously while 'W' is held down
+        player.move_up()  # Move the player up continuously while 'W' is held down
 
     elif pygame.key.get_pressed()[pygame.K_s]:  # Check if 'S' key is held down
-        player_cords = player.move_down()  # Move the player down continuously while 'S' is held down
+        player.move_down()  # Move the player down continuously while 'S' is held down
 
     elif pygame.key.get_pressed()[pygame.K_a]:  # Check if 'A' key is held down
-        player_cords = player.move_left()  # Move the player left continuously while 'A' is held down
+        player.move_left()  # Move the player left continuously while 'A' is held down
 
     elif pygame.key.get_pressed()[pygame.K_d]:  # Check if 'D' key is held down
-        player_cords = player.move_right()  # Move the player right continuously while 'D' is held down
+        player.move_right()  # Move the player right continuously while 'D' is held down
     else:
         player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
+    player_cords = player.Update(map)
 
     ##DRAW
     screen.fill((0, 0, 0))  # Fill the screen with black color

@@ -11,3 +11,5 @@ LIGHT_ANGLE = 35
 
 ##TYPES
 type Coord = tuple[int,int]
+
+type Rect = tuple[int,int,int,int]

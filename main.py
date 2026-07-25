@@ -16,7 +16,7 @@ running = True
 flag_e_pressed = False
 
 
-maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
+maps = ["Maps/tut1.tmx","Maps/1.tmx"]
 map_index = 0
 map = maplib.LevelControl(maps,screen)
 map.Load_map(map_index)
@@ -59,6 +59,7 @@ while running:
         if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):
             map_index +=1
             map.Load_map(map_index)
+            player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 
 
         #---PLAYER INTERACT---#
@@ -72,7 +73,7 @@ while running:
 
         ##DRAW
         screen.fill((0, 0, 0))  # Fill the screen with black color
-        vis_distance = int(10*(battery.state/6000))
+        vis_distance = int(7*(battery.state/6000))
         map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),vis_distance)
         battery.render(screen)  # Render the battery on the screen
         player.render(screen)

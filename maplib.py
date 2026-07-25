@@ -142,6 +142,8 @@ class LevelControl():
                     for x in range(-1,2):
                         map_x = obj_tile_pos[0]+x
                         map_y = obj_tile_pos[1]+y
+                        if map_x < 0 or map_y < 0:
+                            continue
                         properties = self.tmxdata.get_tile_properties(map_x,map_y,layer_index)
                         if properties != None:
                             rect = (map_x*TILE_SIZE+properties['colliders'][0].x,

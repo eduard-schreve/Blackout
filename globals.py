@@ -7,10 +7,7 @@ FLOOR = 0
 STATIC_OBSTICLES = 1
 
 ##PLAYER
-LIGHT_ANGLE = 35
-TORCH_DIM_TIME = 30*1000 #ms
+LIGHT_ANGLE = 45
 
 ##TYPES
 type Coord = tuple[int,int]
-
-type Rect = tuple[int,int,int,int]

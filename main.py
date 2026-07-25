@@ -1,25 +1,25 @@
 import pygame
-import maplib
 import player
-from globals import *
+import battery
+import backrounds
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)  # Create a resizable window with dimensions 1280x720
 clock = pygame.time.Clock()
 running = True
 
-maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
-map = maplib.LevelControl(maps,screen)
-map.Load_map(0)
-
-player = player.player()
-
-##set plr pos to spawn point
-player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
+player = player.player()  # Create an instance of the Player class
+battery = battery.Battery()
+backrounds = backrounds.backrounds()
 
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
 while running:
+
+    screen.fill((255, 255, 255))  # Fill the screen with white color
+
+    player.render(screen)  # Render the player on the screen
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -29,26 +29,25 @@ while running:
                 running = False
 
     #---MOVEMENT---#
-    if pygame.key.get_pressed()[pygame.K_w]:  # Check if 'W' key is held down
-        player.move_up()  # Move the player up continuously while 'W' is held down
+    if backrounds.render_start_page(screen) == "load":  # Check if the left mouse button is pressed on the start page
+        if pygame.key.get_pressed()[pygame.K_w]:  # Check if 'W' key is held down
+            player_cords = player.move_up()  # Move the player up continuously while 'W' is held down
 
-    elif pygame.key.get_pressed()[pygame.K_s]:  # Check if 'S' key is held down
-        player.move_down()  # Move the player down continuously while 'S' is held down
+        elif pygame.key.get_pressed()[pygame.K_s]:  # Check if 'S' key is held down
+            player_cords = player.move_down()  # Move the player down continuously while 'S' is held down
 
-    elif pygame.key.get_pressed()[pygame.K_a]:  # Check if 'A' key is held down
-        player.move_left()  # Move the player left continuously while 'A' is held down
+        elif pygame.key.get_pressed()[pygame.K_a]:  # Check if 'A' key is held down
+            player_cords = player.move_left()  # Move the player left continuously while 'A' is held down
 
-    elif pygame.key.get_pressed()[pygame.K_d]:  # Check if 'D' key is held down
-        player.move_right()  # Move the player right continuously while 'D' is held down
-    else:
-        player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
-    player_cords = player.Update(map)
+        elif pygame.key.get_pressed()[pygame.K_d]:  # Check if 'D' key is held down
+            player_cords = player.move_right()  # Move the player right continuously while 'D' is held down
+        else:
+            player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
 
-    ##DRAW
-    screen.fill((0, 0, 0))  # Fill the screen with black color
-    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),player.torch_strength)
+        battery.render(screen)  # Render the battery on the screen
 
-    player.render(screen)  # Render the player on the screen
+    if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
+        running = False  # Exit the game loop if "quit" is pressed
 
     pygame.display.flip()
 

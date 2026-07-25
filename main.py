@@ -4,6 +4,7 @@ import battery
 import backrounds
 import maplib
 from globals import *
+import inventory
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)  # Create a resizable window with dimensions 1280x720
@@ -16,7 +17,7 @@ running = True
 flag_e_pressed = False
 
 
-maps = ["Maps/tut1.tmx","Maps/1.tmx"]
+maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
 map_index = 0
 map = maplib.LevelControl(maps,screen)
 map.Load_map(map_index)
@@ -24,6 +25,7 @@ map.Load_map(map_index)
 player = player.player()
 battery = battery.Battery()
 backrounds = backrounds.backrounds()
+inventory = inventory.inventory()
 
 ##set plr pos to spawn point
 player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
@@ -59,7 +61,6 @@ while running:
         if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):
             map_index +=1
             map.Load_map(map_index)
-            player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 
 
         #---PLAYER INTERACT---#
@@ -69,14 +70,16 @@ while running:
         elif not pygame.key.get_pressed()[pygame.K_e] and flag_e_pressed:
             flag_e_pressed = False
 
-        
-
         ##DRAW
         screen.fill((0, 0, 0))  # Fill the screen with black color
-        vis_distance = int(7*(battery.state/6000))
+        vis_distance = int(10*(battery.state/6000))
         map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),vis_distance)
         battery.render(screen)  # Render the battery on the screen
         player.render(screen)
+
+        #---INVENTORY---#
+        inventory.render(screen)
+        inventory.container(screen, True)
 
     if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed

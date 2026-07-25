@@ -11,6 +11,7 @@ class backrounds:
         self.start_page_image = pygame.image.load(BASEDIR.joinpath("Resources","start_page.png")).convert_alpha()  # Load the start page image
         self.buttons = pygame.image.load(BASEDIR.joinpath("Resources","buttons.png")).convert_alpha()  # Load the buttons image
         self.light = pygame.image.load(BASEDIR.joinpath("Resources","light.png")).convert_alpha()  # Load the light image
+        self.load_screen = pygame.image.load(BASEDIR.joinpath("Resources","load_screen.png")).convert_alpha()  # Load the load screen image
         self.pressed = False  # Variable to track if the left mouse button is pressed
 
     def render_start_page(self, screen):
@@ -35,3 +36,7 @@ class backrounds:
             screen.blit(self.light, (screen.get_width() * 0.27578125, screen.get_height() * 0.0625))
 
         return self.pressed
+
+    def render_load(self, screen):
+        self.load_screen = pygame.transform.scale(self.load_screen, (screen.get_width(), screen.get_height()))
+        screen.blit(self.load_screen, (0, 0))  # Render the load screen image on the screen

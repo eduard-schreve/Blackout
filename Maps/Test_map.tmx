@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="14">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="20">
  <tileset firstgid="1" source="TileMaps/Basic_Tiles.tsx"/>
- <objectgroup id="3" name="Wires" class="obj">
-  <object id="3" x="400.333" y="303.667">
-   <point/>
-  </object>
-  <object id="4" x="462" y="304.667">
-   <point/>
-  </object>
-  <object id="7" name="1" x="399.667" y="304">
+ <objectgroup id="7" name="Interact" class="obj">
+  <properties>
+   <property name="interact" type="bool" value="true"/>
+  </properties>
+  <object id="18" name="Switch 1" x="349.625" y="260" width="68.375" height="62">
    <properties>
-    <property name="order" type="int" value="0"/>
+    <property name="function" value="setb 19 collide False"/>
    </properties>
-   <point/>
-  </object>
-  <object id="8" name="1" x="465.333" y="305.333">
-   <properties>
-    <property name="order" type="int" value="1"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="9" name="1" x="466.667" y="242">
-   <properties>
-    <property name="order" type="int" value="2"/>
-   </properties>
-   <point/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="Lvl_Data" class="obj">
@@ -57,7 +41,56 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <layer id="2" name="Static_Obsticles" class="collision" width="20" height="20">
+ <objectgroup id="2" name="Functional" class="obj">
+  <object id="7" name="1" x="399.667" y="304">
+   <properties>
+    <property name="order" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="8" name="1" x="465.333" y="305.333">
+   <properties>
+    <property name="order" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="9" name="1" x="466.667" y="242">
+   <properties>
+    <property name="order" type="int" value="2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="14" name="2" x="399.5" y="306">
+   <properties>
+    <property name="order" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="15" name="2" x="432.75" y="312.5">
+   <properties>
+    <property name="order" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="16" name="2" x="458" y="293.375">
+   <properties>
+    <property name="order" type="int" value="2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="17" name="2" x="505" y="304.5">
+   <properties>
+    <property name="order" type="int" value="3"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="19" name="Door" x="315.5" y="180.5" width="36" height="44.5">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer id="3" name="Static_Obsticles" class="collision" width="20" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

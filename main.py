@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 running = True
 
-maps = ["Maps/Test_map.tmx"]
+maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
 map = maplib.LevelControl(maps,screen)
 map.Load_map(0)
 
@@ -46,7 +46,7 @@ while running:
 
     ##DRAW
     screen.fill((0, 0, 0))  # Fill the screen with black color
-    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos())
+    map.Render_map((player_cords[0]+TILE_SIZE//2,player_cords[1]+TILE_SIZE//2),pygame.mouse.get_pos(),player.torch_strength)
 
     player.render(screen)  # Render the player on the screen
 

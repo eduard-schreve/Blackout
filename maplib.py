@@ -30,7 +30,7 @@ class LevelControl():
     def Load_map(self, m_index:int) -> None:
         self.tmxdata = pytmx.load_pygame(self.map_pool[m_index])
 
-    def Render_map(self, plr_pos:Coord, point_pos:Coord) -> None:
+    def Render_map(self, plr_pos:Coord, point_pos:Coord,vis_dist:int) -> None:
         if self.tmxdata == None:
             if self.tmxdata == None:
                         MapNotLoadedError('Map has not been loaded')
@@ -39,7 +39,7 @@ class LevelControl():
         delta_mouse_pos = (point_pos[0]-plr_pos[0],point_pos[1]-plr_pos[1])
         # delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
         point_angle = math.degrees(math.atan2(delta_mouse_pos[1],delta_mouse_pos[0]))+180
-        vis_mask = self._generate_visible_mask(point_angle,5,plr_tile_pos)
+        vis_mask = self._generate_visible_mask(point_angle,vis_dist,plr_tile_pos)
 
         for layer in self.tmxdata.layers:
             if getattr(layer,"class") == "obj":
@@ -83,7 +83,7 @@ class LevelControl():
         colliders = []
         if self.tmxdata == None:
             MapNotLoadedError('Map has not been loaded')
-            return False
+            return 
         obj_tile_pos = (obj[0]//TILE_SIZE,obj[1]//TILE_SIZE)
         self.tmxdata.tilesets
         for layer_index in range(len(self.tmxdata.layernames)):

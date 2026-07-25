@@ -1,5 +1,6 @@
 import pygame
 import pathlib
+from globals import *
 
 pygame.init()
 
@@ -19,6 +20,10 @@ class player:
         self.player_image.blit(self.ogplayer_image, (0, 0), (0, 0, 32, 32))  # Blit the player image onto the surface
 
         self.angle = 0  # Angle of rotation for the player image
+
+        self.torch_strength = 10
+        self.torch_clock = pygame.time.Clock()
+        self.torch_time = 0
 
     def move_up(self):
         self.vel[1] -= self.speed
@@ -73,6 +78,11 @@ class player:
             self.position += 1
         else:
             self.position = 1
+
+        self.torch_time += self.torch_clock.tick()
+        if self.torch_time > TORCH_DIM_TIME:
+            self.torch_strength -= 1
+            self.torch_time = 0
 
         return self.cords
 

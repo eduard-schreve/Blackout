@@ -8,6 +8,7 @@ STATIC_OBSTICLES = 1
 
 ##PLAYER
 LIGHT_ANGLE = 35
+TORCH_DIM_TIME = 30*1000 #ms
 
 ##TYPES
 type Coord = tuple[int,int]

@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="3">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="14">
  <tileset firstgid="1" source="TileMaps/Basic_Tiles.tsx"/>
- <objectgroup id="3" name="Wires" class="obj"/>
+ <objectgroup id="3" name="Wires" class="obj">
+  <object id="3" x="400.333" y="303.667">
+   <point/>
+  </object>
+  <object id="4" x="462" y="304.667">
+   <point/>
+  </object>
+  <object id="7" name="1" x="399.667" y="304">
+   <properties>
+    <property name="order" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="8" name="1" x="465.333" y="305.333">
+   <properties>
+    <property name="order" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="9" name="1" x="466.667" y="242">
+   <properties>
+    <property name="order" type="int" value="2"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="4" name="Lvl_Data" class="obj">
   <object id="1" name="spwn" x="287.347" y="326.536">
    <point/>
   </object>
+  <object id="13" name="exit" x="231.667" y="177.667" width="74.6667" height="20.6667"/>
  </objectgroup>
  <layer id="1" name="Floor" class="ground" width="20" height="20">
   <data encoding="csv">

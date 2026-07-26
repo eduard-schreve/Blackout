@@ -9,30 +9,19 @@ BASEDIR = pathlib.Path(__file__).parent
 def Sort_by_id(layer):
     return layer.id
 
-def Merge_dict(dict1:dict,dict2:dict)-> dict:
-    merged = dict1
-    for key in dict2:
-        if key not in merged:
-            merged[key] = dict2[key]
-    return merged
 
 class MapNotLoadedError(Exception):
     """Error raised if the map operations are attempted before being loaded"""
 
 class LevelControl():
-    def __init__(self,map_pool:list[str],scn:pygame.surface.Surface,cstm_func:dict):
+    def __init__(self,map_pool:list[str],scn:pygame.surface.Surface):
         self.screen = scn
         self.map_pool = [str(BASEDIR.joinpath(p)) for p in map_pool]
         self.tmxdata = None
         self.offset_x = TILE_SIZE
         self.offset_y = TILE_SIZE
-        base_obj_func = {
-            'setb': self.Set_tile_property_bool,
-            'settile': self.Set_Tile,
-        }
-        self.obj_functions = Merge_dict(base_obj_func,cstm_func)
 
-    
+
     def Load_map(self, m_index:int) -> None:
         self.tmxdata = pytmx.load_pygame(self.map_pool[m_index])
 
@@ -43,8 +32,10 @@ class LevelControl():
                         return
         plr_tile_pos = (plr_pos[0]//TILE_SIZE,plr_pos[1]//TILE_SIZE)
         delta_mouse_pos = (point_pos[0]-plr_pos[0],point_pos[1]-plr_pos[1])
+        # delta_mouse_pos = (plr_pos[0]-point_pos[0],plr_pos[1]-point_pos[1])
         point_angle = math.degrees(math.atan2(delta_mouse_pos[1],delta_mouse_pos[0]))+180
         vis_mask = self._generate_visible_mask(point_angle,vis_dist,plr_tile_pos)
+        # print(self.tmxdata.layers)
         sorted_layers = sorted(self.tmxdata.layers,key=Sort_by_id)
         for layer in sorted_layers:
             if getattr(layer,"class") == "obj":
@@ -56,7 +47,7 @@ class LevelControl():
                         wire_lines[node.name].append((node.x,node.y))
                     for key in wire_lines.keys():
                         pygame.draw.lines(self.screen,(255,0,0),False,wire_lines[key])
-            elif getattr(layer,"class") != "hidden":
+            else:
                 tiles = layer.tiles()
                 for x,y,img in tiles:
                     if (x,y) in vis_mask:
@@ -104,12 +95,13 @@ class LevelControl():
         if self.tmxdata == None:
                     MapNotLoadedError('Map has not been loaded')
                     return False
-        commands = func_str.split(';')
-        print(commands)
-        for command in commands:
-            print(command)
-            parced = command.split(' ')
-            self.obj_functions[parced[0]](parced[1:])
+        parced = func_str.split(' ')
+        if parced[0] == "setb": #Set Boolean Value
+            obj = self.tmxdata.get_object_by_id(int(parced[1]))
+            if parced[3] == "True":
+                obj.properties[parced[2]] = True
+            else:
+                obj.properties[parced[2]] = False
         return True
 
 
@@ -158,22 +150,4 @@ class LevelControl():
                                     properties['colliders'][0].height)
                             colliders.append(rect)
         return colliders
-
-    def Set_tile_property_bool(self,data:list[str]):
-        if self.tmxdata == None:
-            MapNotLoadedError('Map has not been loaded')
-            return False
-        obj = self.tmxdata.get_object_by_id(int(data[0]))
-        if data[2] == "True":
-            obj.properties[data[1]] = True
-        else:
-            obj.properties[data[1]] = False
-
-    def Set_Tile(self,data:list[str]):
-        if self.tmxdata == None:
-            MapNotLoadedError('Map has not been loaded')
-            return False
-        layer = self.tmxdata.get_layer_by_name(data[0])
-        gid = self.tmxdata.get_tile_gid(int(data[3]),int(data[4]),0)
-        layer.data[int(data[2])][int(data[1])] = gid
                     

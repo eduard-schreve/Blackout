@@ -1,6 +1,7 @@
 import pygame
 
 pygame.init()
+# pygame.mixer.init()
 
 class inventory:
     def __init__(self):
@@ -19,6 +20,10 @@ class inventory:
 
         self.cont_selected = None
         self.inv_selected = None
+
+        self.click_sound = pygame.mixer.Sound("click.wav")
+        self.click_sound.set_volume(1)
+        self.repeat = True
 
     def render(self,screen): # inventory
         self.inv_coords = [(screen.get_width() / 2 - 116, screen.get_height() - 100),
@@ -66,11 +71,19 @@ class inventory:
                 if pygame.Rect.collidepoint(pygame.Rect(self.cont_coords[0], (32, 32)), mpos):
                     screen.blit(self.img, (self.cont_coords[0]), pygame.Rect(64, 96, 32, 32))
 
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
+
                     if self.cont_selected != 0:
                         self.cont_selected = 0
 
                 if pygame.Rect.collidepoint(pygame.Rect(self.cont_coords[1], (32, 32)), mpos):
                     screen.blit(self.img, (self.cont_coords[1]), pygame.Rect(64, 96, 32, 32))
+                    
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
                     
                     if self.cont_selected != 1:
                         self.cont_selected = 1
@@ -78,12 +91,20 @@ class inventory:
                 if pygame.Rect.collidepoint(pygame.Rect(self.cont_coords[2], (32, 32)), mpos):
                     screen.blit(self.img, (self.cont_coords[2]), pygame.Rect(64, 96, 32, 32))
                     
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
+                    
                     if self.cont_selected != 2:
                         self.cont_selected = 2
 
                 #---INVENTORY---#
                 if pygame.Rect.collidepoint(pygame.Rect(self.inv_coords[0], (32, 32)), mpos):
                     screen.blit(self.img, (self.inv_coords[0]), pygame.Rect(64, 96, 32, 32))
+                    
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
 
                     if self.inv_selected != 0:
                         self.inv_selected = 0
@@ -91,14 +112,25 @@ class inventory:
                 if pygame.Rect.collidepoint(pygame.Rect(self.inv_coords[1], (32, 32)), mpos):
                     screen.blit(self.img, (self.inv_coords[1]), pygame.Rect(64, 96, 32, 32))
                     
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
+                    
                     if self.inv_selected != 1:
                         self.inv_selected = 1
 
                 if pygame.Rect.collidepoint(pygame.Rect(self.inv_coords[2], (32, 32)), mpos):
                     screen.blit(self.img, (self.inv_coords[2]), pygame.Rect(64, 96, 32, 32))
                     
+                    if self.repeat:
+                        self.click_sound.play()
+                        self.repeat = False
+                    
                     if self.inv_selected != 2:
                         self.inv_selected = 2
+
+            else:
+                self.repeat = True
 
             if pygame.mouse.get_pressed()[2]:
                 self.inv_selected = None

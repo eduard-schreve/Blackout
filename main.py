@@ -7,6 +7,7 @@ from globals import *
 import inventory
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)  # Create a resizable window with dimensions 1280x720
 clock = pygame.time.Clock()
 running = True
@@ -33,6 +34,10 @@ player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
 container = False
+
+pygame.mixer.music.load("ObservingTheStar.ogg")
+pygame.mixer.music.play(-1) 
+pygame.mixer.music.set_volume(0.5) # Volume from 0.0 to 1.0
  
 while running:
     for event in pygame.event.get():
@@ -92,10 +97,14 @@ while running:
             inventory.switch_items()
 
     elif backrounds.render_start_page(screen) == "load":  # Check if the left mouse button is pressed on the start page
-        backrounds.render_load(screen)  # Render the load screen if "load" is pressed
+        chosen = backrounds.render_load(screen)  # Render the load screen if "load" is pressed
+        print(chosen)
 
-    if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
+    elif backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed
+
+    else:
+        backrounds.render_start_page(screen)
 
     pygame.display.flip()
 

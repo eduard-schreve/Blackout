@@ -1,11 +1,13 @@
 import pygame
+import pathlib
 
 pygame.init()
 # pygame.mixer.init()
 
+BASEDIR = pathlib.Path(__file__).parent
 class inventory:
     def __init__(self):
-        self.img = pygame.image.load("inventory.png").convert_alpha()
+        self.img = pygame.image.load(BASEDIR.joinpath("Resources","inventory.png")).convert_alpha()
         self.slots = [7, 7, 7]
         self.stash = [0, 1, 2]
         self.items = [pygame.Rect(0, 32, 32, 32), #red key 0

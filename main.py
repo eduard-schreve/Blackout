@@ -17,16 +17,20 @@ running = True
 ##KEY FLAGS
 flag_e_pressed = False
 
-
-maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
-map_index = 0
-map = maplib.LevelControl(maps,screen)
-map.Load_map(map_index)
 # map.Exec_func_str("setb 19 collide False")
 player = player.player()
 battery = battery.Battery()
 backrounds = backrounds.backrounds()
 inventory = inventory.inventory()
+
+custom_obj_functions = {
+    "itemsConvert": inventory.Load_items_from_container
+}
+
+maps = ["Maps/tut1.tmx","Maps/1.tmx"]
+map_index = 0
+map = maplib.LevelControl(maps,screen,custom_obj_functions)
+map.Load_map(map_index)
 
 ##set plr pos to spawn point
 player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
@@ -71,9 +75,10 @@ while running:
             player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
 
         player_cords = player.Update(map)
-        if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):
+        if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):  ##Load New level
             map_index +=1
             map.Load_map(map_index)
+            player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y] #Set plr cords to spawn
 
 
         #---PLAYER INTERACT---#

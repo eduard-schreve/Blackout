@@ -9,19 +9,30 @@ BASEDIR = pathlib.Path(__file__).parent
 def Sort_by_id(layer):
     return layer.id
 
+def Merge_dict(dict1:dict,dict2:dict)-> dict:
+    merged = dict1
+    for key in dict2:
+        if key not in merged:
+            merged[key] = dict2[key]
+    return merged
 
 class MapNotLoadedError(Exception):
     """Error raised if the map operations are attempted before being loaded"""
 
 class LevelControl():
-    def __init__(self,map_pool:list[str],scn:pygame.surface.Surface):
+    def __init__(self,map_pool:list[str],scn:pygame.surface.Surface,cstm_func:dict):
         self.screen = scn
         self.map_pool = [str(BASEDIR.joinpath(p)) for p in map_pool]
         self.tmxdata = None
         self.offset_x = TILE_SIZE
         self.offset_y = TILE_SIZE
+        base_obj_func = {
+            'setb': self.Set_tile_property_bool,
+            'settile': self.Set_Tile,
+        }
+        self.obj_functions = Merge_dict(base_obj_func,cstm_func)
 
-
+    
     def Load_map(self, m_index:int) -> None:
         self.tmxdata = pytmx.load_pygame(self.map_pool[m_index])
 
@@ -98,17 +109,7 @@ class LevelControl():
         for command in commands:
             print(command)
             parced = command.split(' ')
-            if parced[0] == "setb": #Set Boolean Value
-                obj = self.tmxdata.get_object_by_id(int(parced[1]))
-                if parced[3] == "True":
-                    obj.properties[parced[2]] = True
-                else:
-                    obj.properties[parced[2]] = False
-            elif parced[0] == "settile":
-                layer = self.tmxdata.get_layer_by_name(parced[1])
-                gid = self.tmxdata.get_tile_gid(int(parced[4]),int(parced[5]),0)
-                layer.data[int(parced[3])][int(parced[2])] = gid
-                print("creek")
+            self.obj_functions[parced[0]](parced[1:])
         return True
 
 
@@ -157,4 +158,22 @@ class LevelControl():
                                     properties['colliders'][0].height)
                             colliders.append(rect)
         return colliders
+
+    def Set_tile_property_bool(self,data:list[str]):
+        if self.tmxdata == None:
+            MapNotLoadedError('Map has not been loaded')
+            return False
+        obj = self.tmxdata.get_object_by_id(int(data[0]))
+        if data[2] == "True":
+            obj.properties[data[1]] = True
+        else:
+            obj.properties[data[1]] = False
+
+    def Set_Tile(self,data:list[str]):
+        if self.tmxdata == None:
+            MapNotLoadedError('Map has not been loaded')
+            return False
+        layer = self.tmxdata.get_layer_by_name(data[0])
+        gid = self.tmxdata.get_tile_gid(int(data[3]),int(data[4]),0)
+        layer.data[int(data[2])][int(data[1])] = gid
                     

@@ -7,7 +7,8 @@
   </properties>
   <object id="18" name="Container" x="254" y="317" width="36" height="36">
    <properties>
-    <property name="Items" value=""/>
+    <property name="data" value="2 6"/>
+    <property name="function" value="itemsConvert 18 data"/>
    </properties>
   </object>
  </objectgroup>

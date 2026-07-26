@@ -1,11 +1,15 @@
 import pygame
+import pathlib
 
 pygame.init()
 
+BASEDIR = pathlib.Path(__file__).parent
+
 class inventory:
     def __init__(self):
-        self.img = pygame.image.load("inventory.png").convert_alpha()
+        self.img = pygame.image.load(BASEDIR.joinpath("Resources","inventory.png")).convert_alpha()
         self.slots = [3, 4, 6]
+        self.stash = [7, 7, 7]
         self.items = [pygame.Rect(0, 32, 32, 32), #red key 0
                       pygame.Rect(32, 32, 32, 32), #green key 1
                       pygame.Rect(64, 32, 32, 32), #blue key 2
@@ -48,3 +52,10 @@ class inventory:
             #---RENDER THE INVENTORY ITEMS---#
             for i in range(3):
                 screen.blit(self.img, coords[i], self.items[items[i]])
+
+
+    def Load_items_from_container(self,strs:list[str]):
+        items = []
+        for str_item in strs:
+            items.append(int(str_item))
+        self.stash = [items[i] for i in range(len(items)) if i < 3]

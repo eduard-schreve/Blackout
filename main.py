@@ -84,7 +84,7 @@ while running:
 
         #---INVENTORY---#
         inventory.render(screen)
-        # inventory.container(screen, True)
+        inventory.container(screen, True)
 
     if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed

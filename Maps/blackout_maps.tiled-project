@@ -1,0 +1,20 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "compatibilityVersion": 1100,
+    "extensionsPath": "extensions",
+    "folders": [
+        "."
+    ],
+    "properties": [
+        {
+            "name": "layer_type",
+            "propertytype": "",
+            "type": "string",
+            "value": ""
+        }
+    ],
+    "propertyTypes": [
+    ]
+}

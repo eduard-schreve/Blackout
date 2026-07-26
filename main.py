@@ -16,26 +16,24 @@ running = True
 ##KEY FLAGS
 flag_e_pressed = False
 
+
+maps = ["Maps/Test_map.tmx","Maps/1.tmx"]
+map_index = 0
+map = maplib.LevelControl(maps,screen)
+map.Load_map(map_index)
 # map.Exec_func_str("setb 19 collide False")
 player = player.player()
 battery = battery.Battery()
 backrounds = backrounds.backrounds()
 inventory = inventory.inventory()
 
-custom_obj_functions = {
-    "itemsConvert": inventory.Load_items_from_container
-}
-
-maps = ["Maps/tut1.tmx","Maps/1.tmx"]
-map_index = 0
-map = maplib.LevelControl(maps,screen,custom_obj_functions)
-map.Load_map(map_index)
-
 ##set plr pos to spawn point
 player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y]
 
 player_cords = (player.cords[0], player.cords[1])  # Starting position of the player
 
+container = False
+ 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -44,6 +42,12 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+
+            if event.key == pygame.K_e:
+                if container == False:
+                    container = True
+                else:
+                    container = False
 
     #---MOVEMENT---#
     if backrounds.render_start_page(screen) == "start":  # Check if the left mouse button is pressed on the start page
@@ -62,10 +66,9 @@ while running:
             player.doesnt_move()  # Reset the position index for animation when no movement keys are pressed
 
         player_cords = player.Update(map)
-        if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):  ##Load New level
+        if map.Plr_exit((player_cords[0],player_cords[1],player.size[0],player.size[1])):
             map_index +=1
             map.Load_map(map_index)
-            player.cords = [map.Get_obj("spwn").x,map.Get_obj("spwn").y] #Set plr cords to spawn
 
 
         #---PLAYER INTERACT---#
@@ -84,7 +87,12 @@ while running:
 
         #---INVENTORY---#
         inventory.render(screen)
-        inventory.container(screen, True)
+        if container:
+            inventory.container(screen, True)  # Render the inventory container with items [0, 1, 2]
+            inventory.switch_items()
+
+    elif backrounds.render_start_page(screen) == "load":  # Check if the left mouse button is pressed on the start page
+        backrounds.render_load(screen)  # Render the load screen if "load" is pressed
 
     if backrounds.render_start_page(screen) == "quit":  # Check if the left mouse button is pressed on the start page
         running = False  # Exit the game loop if "quit" is pressed

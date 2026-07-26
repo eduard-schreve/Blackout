@@ -12,7 +12,7 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="Lvl_Data" class="obj">
-  <object id="1" name="spwn" x="19.347" y="67.536">
+  <object id="1" name="spwn" x="54.347" y="249.536">
    <point/>
   </object>
   <object id="13" name="exit" x="0.167" y="191.667" width="8.1667" height="95.6667">

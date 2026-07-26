@@ -27,7 +27,7 @@ custom_obj_functions = {
     "itemsConvert": inventory.Load_items_from_container
 }
 
-maps = ["Maps/tut1.tmx","Maps/1.tmx"]
+maps = ["Maps/tut1.tmx","Maps/1.tmx","Maps/2.tmx","Maps/3.tmx","Maps/4.tmx","Maps/5.tmx","Maps/6.tmx"]
 map_index = 0
 map = maplib.LevelControl(maps,screen,custom_obj_functions)
 map.Load_map(map_index)
